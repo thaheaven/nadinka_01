@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f7f3fc">
 <title>nadinka</title>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -19,20 +21,9 @@
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --bg: #1f1a2b; --surface: #2d2640; --text: #ece6f7; --muted: #a79dc0;
-    --accent: #b9a2e6; --accent-strong: #cdbcf1; --on-accent: #2e2545;
-  }
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #1f1a2b; --surface: #2d2640; --text: #ece6f7; --muted: #a79dc0;
-  --accent: #b9a2e6; --accent-strong: #cdbcf1; --on-accent: #2e2545;
-}
+
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+html { background: var(--bg); scroll-padding-top: env(safe-area-inset-top, 0px); }
 body {
   margin: 0;
   background: var(--bg);
@@ -44,6 +35,7 @@ body {
 main {
   position: relative;
   z-index: 1;
+  pointer-events: none;
   width: min(100%, 560px);
   margin: 0 auto;
   padding: 72px 24px 96px;
@@ -96,7 +88,7 @@ audio { width: 100%; height: 40px; accent-color: var(--accent-strong); }
 .b7 { width: 128px; height: 128px; bottom: 7%; right: 7%; color: #cdb8f0; --c: #f7e3a1; transform: rotate(-8deg); }
 .b8 { width: 44px; height: 44px; bottom: 32%; right: 17%; color: #f6cfe2; --c: #cdb8f0; transform: rotate(14deg); }
 .bg { animation: fade 1.2s ease-out both; }
-.plants { position: fixed; inset: 0; z-index: 2; pointer-events: none; animation: fade 1.2s ease-out .5s both; }
+.plants { position: fixed; inset: 0; z-index: 0; pointer-events: none; animation: fade 1.2s ease-out .5s both; }
 .plant { position: absolute; border: 0; padding: 0; background: none; cursor: pointer; pointer-events: auto; border-radius: 12px; animation: float var(--d, 7s) ease-in-out var(--delay, 0s) infinite; }
 .plant svg { display: block; width: 100%; height: 100%; transition: transform .25s; }
 .plant:hover svg { transform: scale(1.1); }
@@ -111,7 +103,19 @@ audio { width: 100%; height: 40px; accent-color: var(--accent-strong); }
 .p4 { width: 68px; height: 68px; top: 23%; right: 14%; color: #bfe2c8; --c2: #a3d1b1; --r: -10deg; --d: 7.5s; --delay: -1s; }
 .p5 { width: 84px; height: 84px; top: 58%; right: 9%; color: #b5dbc0; --c2: #cde8d4; --r: 10deg; --d: 8.5s; --delay: -3s; }
 .p6 { width: 60px; height: 60px; bottom: 5%; right: 25%; color: #bfe2c8; --r: 16deg; --d: 6.5s; --delay: -5s; }
-@media (max-width: 700px) { .p2, .p4, .p6 { display: none; } }
+@media (max-width: 700px) {
+  .bg { opacity: .6; }
+  .b2, .b3, .b6, .b8 { display: none; }
+  .b1 { width: 70px; height: 70px; top: 3%; left: -16px; }
+  .b5 { width: 56px; height: 56px; top: 9%; right: -18px; }
+  .b7 { width: 96px; height: 96px; bottom: 3%; right: -26px; }
+  .b4 { width: 56px; height: 56px; bottom: 10%; left: -14px; }
+  .plants { overflow: hidden; }
+  .p2, .p4, .p6 { display: none; }
+  .p1 { width: 64px; height: 64px; top: 38%; left: -20px; }
+  .p5 { width: 64px; height: 64px; top: 56%; right: -22px; }
+  .p3 { width: 68px; height: 68px; bottom: 22%; left: -18px; }
+}
 .bubble {
   position: fixed; z-index: 6;
   max-width: 220px;
@@ -126,6 +130,7 @@ audio { width: 100%; height: 40px; accent-color: var(--accent-strong); }
   transition: opacity .15s, transform .3s cubic-bezier(.34, 1.56, .64, 1);
 }
 .bubble[hidden] { display: none; }
+main button, main a, main audio { pointer-events: auto; }
 .bubble.show { opacity: 1; transform: scale(1); }
 .bubble.below { transform-origin: var(--tail, 24px) 0; }
 .bubble::after {
