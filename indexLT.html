@@ -31,6 +31,7 @@ body {
   font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   line-height: 1.6;
   min-height: 100vh;
+  position: relative;
 }
 main {
   position: relative;
@@ -55,7 +56,7 @@ h1 { font-size: clamp(3rem, 12vw, 5rem); font-weight: 300; letter-spacing: -0.04
 .role { color: var(--accent-strong); margin: 0 0 22px; font-weight: 400; font-style: italic; font-size: 1.15rem; }
 .bio { color: var(--muted); margin: 0 auto 32px; max-width: 44ch; }
 nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
-button.nav {
+button.nav, button.cta {
   font: inherit; font-weight: 500;
   padding: 10px 22px;
   border-radius: 999px;
@@ -64,7 +65,8 @@ button.nav {
   cursor: pointer;
   transition: background .2s, color .2s;
 }
-button.nav:hover { background: var(--surface); }
+button.nav:hover, button.cta:hover { background: var(--surface); }
+.cta-wrap { margin-top: 48px; text-align: center; }
 button.nav[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 3px; }
 section[hidden] { display: none; }
@@ -97,8 +99,9 @@ audio::-webkit-media-controls-panel { background-color: transparent; }
 .contact p { margin: 0 0 8px; color: var(--muted); }
 .contact .links { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
 .contact .social { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
-.bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; opacity: .75; }
+.bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; opacity: .75; }
 .f { position: absolute; display: block; }
+.tile { position: absolute; left: 0; right: 0; top: 0; height: var(--tile-h, 100%); pointer-events: none; }
 .b1 { width: 120px; height: 120px; top: 5%; left: 5%; color: #cdb8f0; --c: #f7e3a1; transform: rotate(12deg); }
 .b2 { width: 54px; height: 54px; top: 22%; left: 15%; color: #f6cfe2; --c: #cdb8f0; transform: rotate(-10deg); }
 .b3 { width: 96px; height: 96px; top: 58%; left: 6%; color: #f2bfd8; --c: #fff1b8; transform: rotate(-6deg); }
@@ -108,7 +111,7 @@ audio::-webkit-media-controls-panel { background-color: transparent; }
 .b7 { width: 128px; height: 128px; bottom: 7%; right: 7%; color: #cdb8f0; --c: #f7e3a1; transform: rotate(-8deg); }
 .b8 { width: 44px; height: 44px; bottom: 32%; right: 17%; color: #f6cfe2; --c: #cdb8f0; transform: rotate(14deg); }
 .bg { animation: fade 1.2s ease-out both; }
-.plants { position: fixed; inset: 0; z-index: 0; pointer-events: none; animation: fade 1.2s ease-out .5s both; }
+.plants { position: absolute; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; animation: fade 1.2s ease-out .5s both; }
 .plant { position: absolute; border: 0; padding: 0; background: none; cursor: pointer; pointer-events: auto; border-radius: 12px; animation: float var(--d, 7s) ease-in-out var(--delay, 0s) infinite; }
 .plant svg { display: block; width: 100%; height: 100%; transition: transform .25s; }
 .plant:hover svg { transform: scale(1.1); }
@@ -193,7 +196,7 @@ nav { animation-delay: .48s; }
     <symbol id="fern" viewBox="-20 -20 40 40"><g transform="translate(0 18)"><path transform="rotate(-40)" d="M0 0C-6 -7 -6 -18 0 -30C6 -18 6 -7 0 0Z" style="fill: var(--c2, #9cccab)"/><path transform="rotate(40)" d="M0 0C-6 -7 -6 -18 0 -30C6 -18 6 -7 0 0Z" style="fill: var(--c2, #9cccab)"/><path d="M0 0C-6 -7 -6 -18 0 -30C6 -18 6 -7 0 0Z" fill="currentColor"/></g></symbol>
   </svg>
   <button class="plant p1" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="sveiki, aš Nadinka. džiaugiuosi, kad užsukote."><svg aria-hidden="true"><use href="#sprig"/></svg></button>
-  <button class="plant p2" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="kuriu muziką tylioms patalpoms ir dideliems jausmams."><svg aria-hidden="true"><use href="#pilea"/></svg></button>
+  <button class="plant p2" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="Gali būti, kad už krūmų kažkur slepiasi katė. Niekada nežinai."><svg aria-hidden="true"><use href="#pilea"/></svg></button>
   <button class="plant p3" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="psst, viskas skamba geriau su ausinėmis."><svg aria-hidden="true"><use href="#fern"/></svg></button>
   <button class="plant p4" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="šiuo metu niūniuoju: kažką naujo."><svg aria-hidden="true"><use href="#pilea"/></svg></button>
   <button class="plant p5" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="miau miau miau miau miau miau"><svg aria-hidden="true"><use href="#fern"/></svg></button>
@@ -268,12 +271,13 @@ nav { animation-delay: .48s; }
       <p>Abora Ascend, 2016</p>
       <div class="video ready"><iframe src="https://www.youtube.com/embed/95Pvtyc5KMM?si=b-II4uDLmqlSLZl-" title="Behind These Walls" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
     </div>
+    <div class="cta-wrap"><button class="cta" data-target="contact">Susisiekite</button></div>
   </section>
 
   <section id="contact" class="contact" hidden>
     <p>Dėl užsakymų, bendradarbiavimo ar klausimų:</p>
     <p class="links">
-      <a href="mailto:nadia.sazonova2302@gmail.com">nadia.sazonova2302@gmail.com</a>
+      <a href="mailto:nadia.sazonova2302@gmail.com">El. paštas</a>
       <a href="https://www.instagram.com/nadinkasvisuals/" target="_blank" rel="noopener">Instagram</a>
       <a href="https://soundbetter.com/profiles/719716-nadiia-sazonova" target="_blank" rel="noopener">SoundBetter</a>
     </p>
@@ -301,6 +305,12 @@ nav { animation-delay: .48s; }
     b.addEventListener("click", function () {
       var open = b.getAttribute("aria-pressed") === "true";
       show(open ? "" : b.dataset.target);
+    });
+  });
+  document.querySelectorAll("button.cta").forEach(function (c) {
+    c.addEventListener("click", function () {
+      show(c.dataset.target);
+      document.querySelector("nav").scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
 })();
@@ -336,11 +346,65 @@ nav { animation-delay: .48s; }
     bubble.classList.add("show");
     timer = setTimeout(hide, 7000);
   }
-  document.querySelectorAll(".plant").forEach(function (b) {
-    b.addEventListener("click", function (e) { e.stopPropagation(); show(b); });
+  document.querySelector(".plants").addEventListener("click", function (e) {
+    var b = e.target.closest ? e.target.closest(".plant") : null;
+    if (b) { e.stopPropagation(); show(b); }
   });
   document.addEventListener("click", hide);
+  window.addEventListener("scroll", hide, { passive: true });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") hide(); });
+})();
+</script>
+<script>
+(function () {
+  // Flowers and plants live in "tiles" the height of the closed page.
+  // The first tile keeps the original positions; more copies are added below as the page grows.
+  var layers = [document.querySelector(".bg"), document.querySelector(".plants")];
+  var nav = document.querySelector("nav");
+  var probe = document.createElement("div");
+  probe.style.cssText = "position:fixed;top:0;left:0;width:0;height:100vh;visibility:hidden;pointer-events:none";
+  document.body.appendChild(probe);
+  layers.forEach(function (layer) {
+    var tile = document.createElement("div");
+    tile.className = "tile";
+    Array.prototype.slice.call(layer.children).forEach(function (el) {
+      if (el.classList.contains("f") || el.classList.contains("plant")) tile.appendChild(el);
+    });
+    layer.appendChild(tile);
+  });
+  function layout() {
+    var navBottom = nav.getBoundingClientRect().bottom + window.pageYOffset;
+    var tileH = Math.max(probe.offsetHeight, Math.ceil(navBottom + 48 + 96));
+    var total = Math.max(document.body.offsetHeight, tileH);
+    var count = Math.ceil(total / tileH);
+    document.documentElement.style.setProperty("--tile-h", tileH + "px");
+    layers.forEach(function (layer) {
+      var tiles = layer.querySelectorAll(".tile");
+      for (var i = tiles.length; i < count; i++) {
+        var copy = tiles[0].cloneNode(true);
+        copy.setAttribute("aria-hidden", "true");
+        Array.prototype.forEach.call(copy.querySelectorAll("button"), function (b) { b.tabIndex = -1; });
+        layer.appendChild(copy);
+      }
+      for (var j = tiles.length - 1; j >= count; j--) layer.removeChild(tiles[j]);
+      Array.prototype.forEach.call(layer.querySelectorAll(".tile"), function (t, idx) {
+        t.style.top = idx * tileH + "px";
+        Array.prototype.forEach.call(t.children, function (el) {
+          var bottom = el.getBoundingClientRect().bottom - t.getBoundingClientRect().top;
+          var cut = idx > 0 && idx * tileH + bottom > total;
+          el.style.visibility = cut ? "hidden" : "";
+        });
+      });
+    });
+  }
+  layout();
+  window.addEventListener("load", layout);
+  window.addEventListener("resize", layout);
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(layout);
+    ro.observe(document.body);
+    ro.observe(document.querySelector(".photo"));
+  }
 })();
 </script>
 </body>
