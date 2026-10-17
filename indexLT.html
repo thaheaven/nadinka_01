@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f7f3fc">
+<title>Nadinka</title>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f7f3fc;
+  --surface: #ece4f8;
+  --text: #3a3252;
+  --muted: #7d7396;
+  --accent: #b9a2e6;
+  --accent-strong: #8f74cc;
+  --on-accent: #2e2545;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--bg); scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+main {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  width: min(100%, 560px);
+  margin: 0 auto;
+  padding: 72px 24px 96px;
+  text-align: center;
+}
+.photo {
+  width: min(252px, 69.3vw);
+  margin: 12px auto 28px;
+}
+.photo img {
+  display: block;
+  width: 100%; height: auto;
+  -webkit-mask-image: linear-gradient(#000 78%, transparent);
+  mask-image: linear-gradient(#000 78%, transparent);
+}
+h1 { font-size: clamp(3rem, 12vw, 5rem); font-weight: 300; letter-spacing: -0.045em; line-height: 1; margin: 0 0 10px; }
+.role { color: var(--accent-strong); margin: 0 0 22px; font-weight: 400; font-style: italic; font-size: 1.15rem; }
+.bio { color: var(--muted); margin: 0 auto 32px; max-width: 44ch; }
+nav { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
+button.nav {
+  font: inherit; font-weight: 500;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1.5px solid var(--accent);
+  background: transparent; color: var(--text);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+button.nav:hover { background: var(--surface); }
+button.nav[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 3px; }
+section[hidden] { display: none; }
+.lang { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 16px); right: 16px; z-index: 5; pointer-events: auto; font: inherit; font-weight: 500; font-size: .9rem; letter-spacing: .08em; text-decoration: none; color: var(--text); padding: 6px 16px; border-radius: 999px; border: 1.5px solid var(--accent); background: var(--bg); transition: background .2s, color .2s; }
+.lang:hover { background: var(--accent); color: var(--on-accent); }
+
+
+.track { padding: 20px 0; border-top: 1px solid var(--surface); }
+.track:last-child { padding-bottom: 0; }
+.track:first-child { border-top: 0; padding-top: 0; }
+.track h2 { font-size: 1.1rem; font-weight: 500; margin: 0 0 2px; }
+.track p { margin: 0 0 12px; color: var(--muted); font-size: .95rem; }
+.credit-photo, .video { position: relative; width: 100%; border-radius: 16px; overflow: hidden; background: var(--surface); border: 1.5px dashed var(--accent); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; }
+.credit-photo { aspect-ratio: 16 / 9; margin: 0 0 14px; background: transparent; border: 0; border-radius: 16px; overflow: hidden; }
+.video { aspect-ratio: 16 / 9; margin-top: 4px; }
+.credit-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video.ready, .credit-photo.ready { border: 0; }
+.video, .video iframe { pointer-events: auto; }
+.group { font-size: .8rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-strong); margin: 40px 0 16px; }
+#work .group:first-child { margin-top: 0; }
+.track + .group { margin-top: 44px; }
+.listen { color: var(--accent-strong); text-underline-offset: 4px; font-size: .95rem; }
+.track p { line-height: 1.5; }
+audio { display: block; width: 100%; height: 40px; margin: 0 0 14px; accent-color: var(--accent-strong); pointer-events: auto; }
+audio { background: transparent; border-radius: 8px; }
+audio::-webkit-media-controls-enclosure { background: transparent; border-radius: 8px; }
+audio::-webkit-media-controls-panel { background-color: transparent; }
+.contact a { color: var(--accent-strong); text-underline-offset: 4px; }
+.contact p { margin: 0 0 8px; color: var(--muted); }
+.contact .links { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+.contact .social { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
+.bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; opacity: .75; }
+.f { position: absolute; display: block; }
+.b1 { width: 120px; height: 120px; top: 5%; left: 5%; color: #cdb8f0; --c: #f7e3a1; transform: rotate(12deg); }
+.b2 { width: 54px; height: 54px; top: 22%; left: 15%; color: #f6cfe2; --c: #cdb8f0; transform: rotate(-10deg); }
+.b3 { width: 96px; height: 96px; top: 58%; left: 6%; color: #f2bfd8; --c: #fff1b8; transform: rotate(-6deg); }
+.b4 { width: 62px; height: 62px; bottom: 5%; left: 20%; color: #d6c3f5; --c: #f2bfd8; transform: rotate(22deg); }
+.b5 { width: 84px; height: 84px; top: 7%; right: 8%; color: #f2bfd8; --c: #fff1b8; transform: rotate(8deg); }
+.b6 { width: 52px; height: 52px; top: 36%; right: 5%; color: #d6c3f5; --c: #f2bfd8; transform: rotate(-18deg); }
+.b7 { width: 128px; height: 128px; bottom: 7%; right: 7%; color: #cdb8f0; --c: #f7e3a1; transform: rotate(-8deg); }
+.b8 { width: 44px; height: 44px; bottom: 32%; right: 17%; color: #f6cfe2; --c: #cdb8f0; transform: rotate(14deg); }
+.bg { animation: fade 1.2s ease-out both; }
+.plants { position: fixed; inset: 0; z-index: 0; pointer-events: none; animation: fade 1.2s ease-out .5s both; }
+.plant { position: absolute; border: 0; padding: 0; background: none; cursor: pointer; pointer-events: auto; border-radius: 12px; animation: float var(--d, 7s) ease-in-out var(--delay, 0s) infinite; }
+.plant svg { display: block; width: 100%; height: 100%; transition: transform .25s; }
+.plant:hover svg { transform: scale(1.1); }
+.plant:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 4px; }
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-12px) rotate(calc(var(--r, 0deg) + 4deg)); }
+}
+.p1 { width: 76px; height: 76px; top: 34%; left: 8%; color: #b7dcc2; --r: -14deg; --d: 7s; }
+.p2 { width: 64px; height: 64px; top: 11%; left: 24%; color: #c5e5cc; --c2: #a6d3b3; --r: 8deg; --d: 8s; --delay: -2s; }
+.p3 { width: 88px; height: 88px; bottom: 20%; left: 11%; color: #b0d9bc; --c2: #c9e6d0; --r: -6deg; --d: 9s; --delay: -4s; }
+.p4 { width: 68px; height: 68px; top: 23%; right: 14%; color: #bfe2c8; --c2: #a3d1b1; --r: -10deg; --d: 7.5s; --delay: -1s; }
+.p5 { width: 84px; height: 84px; top: 58%; right: 9%; color: #b5dbc0; --c2: #cde8d4; --r: 10deg; --d: 8.5s; --delay: -3s; }
+.p6 { width: 60px; height: 60px; bottom: 5%; right: 25%; color: #bfe2c8; --r: 16deg; --d: 6.5s; --delay: -5s; }
+@media (max-width: 700px) {
+  .bg { opacity: .6; }
+  .b2, .b3, .b6, .b8 { display: none; }
+  .b1 { width: 70px; height: 70px; top: 3%; left: calc(-16px + 8vw); }
+  .b5 { width: 56px; height: 56px; top: 9%; right: calc(-18px + 8vw); }
+  .b7 { width: 96px; height: 96px; bottom: 3%; right: calc(-26px + 8vw); }
+  .b4 { width: 56px; height: 56px; bottom: 10%; left: calc(-14px + 8vw); }
+  .plants { overflow: hidden; }
+  .p2, .p4, .p6 { display: none; }
+  .p1 { width: 64px; height: 64px; top: 38%; left: -20px; }
+  .p5 { width: 64px; height: 64px; top: 56%; right: -22px; }
+  .p3 { width: 68px; height: 68px; bottom: 22%; left: -18px; }
+}
+.bubble {
+  position: fixed; z-index: 6;
+  max-width: 220px;
+  padding: 12px 16px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1.5px solid var(--accent);
+  border-radius: 18px;
+  font-size: .95rem; line-height: 1.45; text-align: left;
+  box-shadow: 0 8px 24px rgba(143, 116, 204, .25);
+  opacity: 0; transform: scale(.6); transform-origin: var(--tail, 24px) 100%;
+  transition: opacity .15s, transform .3s cubic-bezier(.34, 1.56, .64, 1);
+}
+.bubble[hidden] { display: none; }
+main button, main a, main audio { pointer-events: auto; }
+.bubble.show { opacity: 1; transform: scale(1); }
+.bubble.below { transform-origin: var(--tail, 24px) 0; }
+.bubble::after {
+  content: ""; position: absolute; left: var(--tail, 24px); bottom: -8px;
+  width: 12px; height: 12px;
+  background: var(--bg);
+  border: solid var(--accent); border-width: 0 1.5px 1.5px 0;
+  transform: translateX(-50%) rotate(45deg);
+}
+.bubble.below::after { bottom: auto; top: -8px; border-width: 1.5px 0 0 1.5px; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.photo, h1, .role, .bio, nav { animation: fade .7s ease-out both; }
+h1 { animation-delay: .12s; }
+.role { animation-delay: .24s; }
+.bio { animation-delay: .36s; }
+nav { animation-delay: .48s; }
+@media (prefers-reduced-motion: reduce) {
+  .photo, h1, .role, .bio, nav, .bg, .plants { animation: none; }
+  .plant { animation: none; transform: rotate(var(--r, 0deg)); }
+  .bubble { transition: none; }
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true">
+  <svg width="0" height="0" style="position:absolute"><symbol id="flower" viewBox="-20 -20 40 40"><g fill="currentColor"><circle cy="-10" r="7"/><circle cx="9.51" cy="-3.09" r="7"/><circle cx="5.88" cy="8.09" r="7"/><circle cx="-5.88" cy="8.09" r="7"/><circle cx="-9.51" cy="-3.09" r="7"/></g><circle r="4.5" style="fill: var(--c, #f7e3a1)"/></symbol></svg>
+  <svg class="f b1"><use href="#flower"/></svg>
+  <svg class="f b2"><use href="#flower"/></svg>
+  <svg class="f b3"><use href="#flower"/></svg>
+  <svg class="f b4"><use href="#flower"/></svg>
+  <svg class="f b5"><use href="#flower"/></svg>
+  <svg class="f b6"><use href="#flower"/></svg>
+  <svg class="f b7"><use href="#flower"/></svg>
+  <svg class="f b8"><use href="#flower"/></svg>
+</div>
+<div class="plants">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="sprig" viewBox="-20 -20 40 40"><path d="M0 18 Q-2 2 0 -14" fill="none" style="stroke: var(--stem, #8fc3a0)" stroke-width="1.6" stroke-linecap="round"/><g fill="currentColor"><ellipse cx="-6" cy="8" rx="6.5" ry="3.2" transform="rotate(-35 -6 8)"/><ellipse cx="6" cy="6" rx="6.5" ry="3.2" transform="rotate(35 6 6)"/><ellipse cx="-5.5" cy="-2" rx="6" ry="3" transform="rotate(-35 -5.5 -2)"/><ellipse cx="5.5" cy="-4" rx="6" ry="3" transform="rotate(35 5.5 -4)"/><ellipse cx="0" cy="-14" rx="3" ry="5.5"/></g></symbol>
+    <symbol id="pilea" viewBox="-20 -20 40 40"><g fill="none" style="stroke: var(--stem, #8fc3a0)" stroke-width="1.5" stroke-linecap="round"><path d="M0 18 L-10 -4"/><path d="M0 18 L0 -11"/><path d="M0 18 L10 -4"/><path d="M0 18 L-5 4"/><path d="M0 18 L6 5"/></g><g fill="currentColor"><circle cx="-10" cy="-5" r="6"/><circle cx="0" cy="-12" r="6.5"/><circle cx="10" cy="-5" r="6"/></g><circle cx="-5" cy="3" r="4.5" style="fill: var(--c2, #9cccab)"/><circle cx="6" cy="4" r="4.5" style="fill: var(--c2, #9cccab)"/></symbol>
+    <symbol id="fern" viewBox="-20 -20 40 40"><g transform="translate(0 18)"><path transform="rotate(-40)" d="M0 0C-6 -7 -6 -18 0 -30C6 -18 6 -7 0 0Z" style="fill: var(--c2, #9cccab)"/><path transform="rotate(40)" d="M0 0C-6 -7 -6 -18 0 -30C6 -18 6 -7 0 0Z" style="fill: var(--c2, #9cccab)"/><path d="M0 0C-6 -7 -6 -18 0 -30C6 -18 6 -7 0 0Z" fill="currentColor"/></g></symbol>
+  </svg>
+  <button class="plant p1" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="sveiki, aš Nadinka. džiaugiuosi, kad užsukote."><svg aria-hidden="true"><use href="#sprig"/></svg></button>
+  <button class="plant p2" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="kuriu muziką tylioms patalpoms ir dideliems jausmams."><svg aria-hidden="true"><use href="#pilea"/></svg></button>
+  <button class="plant p3" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="psst, viskas skamba geriau su ausinėmis."><svg aria-hidden="true"><use href="#fern"/></svg></button>
+  <button class="plant p4" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="šiuo metu niūniuoju: kažką naujo."><svg aria-hidden="true"><use href="#pilea"/></svg></button>
+  <button class="plant p5" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="miau miau miau miau miau miau"><svg aria-hidden="true"><use href="#fern"/></svg></button>
+  <button class="plant p6" aria-label="Atidaryti žinutę" aria-expanded="false" data-msg="ačiū, kad klausote."><svg aria-hidden="true"><use href="#sprig"/></svg></button>
+</div>
+<div class="bubble" id="bubble" role="status" aria-live="polite" hidden></div>
+<a class="lang" href="index.html" hreflang="en" lang="en" aria-label="English version">EN</a>
+<main>
+  <div class="photo">
+    <img src="images/nadinka.webp" alt="Nadinka šypsosi ir uosto rožinį jurginą">
+  </div>
+  <h1>Nadinka</h1>
+  <p class="role">kompozitorė ir dainų autorė</p>
+  <p class="bio">Laisvai samdoma kompozitorė ir dainų autorė.</p>
+
+  <nav aria-label="Skyriai">
+    <button class="nav" data-target="work" aria-pressed="false">Darbai</button>
+    <button class="nav" data-target="contact" aria-pressed="false">Susisiekite</button>
+  </nav>
+
+  <section id="work" hidden>
+    <h3 class="group">Muzika filmams</h3>
+    <div class="track">
+
+      <div class="credit-photo"><img src="images/you-just-tired.jpg" alt="Kadras iš filmo „You Just Tired“: moteris stumia vaikišką vežimėlį per tamsų mišką" loading="lazy"></div>
+      <audio controls preload="none" src="audio/you-just-tired.mp3" aria-label="Klausytis: You Just Tired"></audio>
+      <h2>„You Just Tired“</h2>
+      <p>Hannah Saks · 15 min. · 2025<br>psichologinis, siaubo</p>
+    </div>
+    <div class="track">
+
+      <div class="credit-photo"><img src="images/wild-animals.jpg" alt="Kadras iš filmo „Wild Animals“: du žmonės patalpoje" loading="lazy"></div>
+      <audio controls preload="none" src="audio/wild-animals.mp3" aria-label="Klausytis: Wild Animals"></audio>
+      <h2>„Wild Animals“</h2>
+      <p>Marty Theobald · 9 min. · 2025<br>mokslinė fantastika, romantika</p>
+    </div>
+    <div class="track">
+
+      <div class="credit-photo"><img src="images/memory-sculptor.jpg" alt="Kadras iš filmo „Memory Sculptor“: rankos virš švytinčios muzikinės dėžutės" loading="lazy"></div>
+      <audio controls preload="none" src="audio/memory-sculptor.mp3" aria-label="Klausytis: Memory Sculptor"></audio>
+      <h2>„Memory Sculptor“</h2>
+      <p>Hantje Pearl · 3 min. · 2025<br>pasaka, muzikinė dėžutė</p>
+    </div>
+    <div class="track">
+
+      <div class="credit-photo"><img src="images/procedura.jpg" alt="Kadras iš filmo „Procedūra“: slaugytoja ir moteris neįgaliojo vežimėlyje prie baseino" loading="lazy"></div>
+      <audio controls preload="none" src="audio/procedura.mp3" aria-label="Klausytis: Procedūra"></audio>
+      <h2>„Procedūra“</h2>
+      <p>Jokūbas Virbickas · 6 min. · 2026<br>psichologinis, siaubo</p>
+    </div>
+
+    <h3 class="group">Dainų kūryba ir muzikos prodiusavimas</h3>
+    <div class="track">
+      <h2>Godo Yorke – „&lt;3 Neparodai“</h2>
+      <p>ESC 2025 Lietuvos nacionalinė atranka<br>bendraprodiuseriai: Goda Sasnauskaitė, Pedro Joaquim Borges, Paulius Večeris</p>
+      <div class="video ready"><iframe src="https://www.youtube.com/embed/ObeRby1p0JA?si=Eko8C0vLN4EYrWS0" title="Godo Yorke – &lt;3 Neparodai" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+    </div>
+    <div class="track">
+      <h2>BAIOL – „jeszcze“</h2>
+      <p>instrumentinė aranžuotė ir fortepijonas: Nadiia Sazonova</p>
+      <div class="video ready"><iframe src="https://www.youtube.com/embed/OY7ynJ5zTV4?si=H2UChjpVqFI1NfEm" title="BAIOL – jeszcze" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+    </div>
+
+    <h3 class="group">Ankstesni bendradarbiavimai</h3>
+    <div class="track">
+      <h2>Emanuele Congeddu vs First Sight ir Nadia Sazonova – „Black Orchid“</h2>
+      <p>Blue Soho Recordings, 2015</p>
+      <div class="video ready"><iframe src="https://www.youtube.com/embed/13WMnqU73Ws?si=SmtnU6HhBXd0NHwI" title="Black Orchid" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+    </div>
+    <div class="track">
+      <h2>Syntouch ir Aylin su Nadia Sazonova – „Behind These Walls“</h2>
+      <p>Abora Ascend, 2016</p>
+      <div class="video ready"><iframe src="https://www.youtube.com/embed/95Pvtyc5KMM?si=b-II4uDLmqlSLZl-" title="Behind These Walls" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe></div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" hidden>
+    <p>Dėl užsakymų, bendradarbiavimo ar klausimų:</p>
+    <p class="links">
+      <a href="mailto:nadia.sazonova2302@gmail.com">nadia.sazonova2302@gmail.com</a>
+      <a href="https://www.instagram.com/nadinkasvisuals/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://soundbetter.com/profiles/719716-nadiia-sazonova" target="_blank" rel="noopener">SoundBetter</a>
+    </p>
+  </section>
+</main>
+
+<script>
+(function () {
+  document.querySelectorAll(".credit-photo").forEach(function (c) {
+    if (c.querySelector("img")) c.classList.add("ready");
+  });
+})();
+</script>
+<script>
+(function () {
+  var buttons = document.querySelectorAll("button.nav");
+  var sections = document.querySelectorAll("section");
+  function show(id) {
+    sections.forEach(function (s) { s.hidden = s.id !== id; });
+    buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.target === id)); });
+    document.querySelectorAll("audio").forEach(function (a) { if (id !== "work") a.pause(); });
+    if (id !== "work") document.querySelectorAll(".video iframe").forEach(function (f) { var u = f.src; f.src = u; });
+  }
+  buttons.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var open = b.getAttribute("aria-pressed") === "true";
+      show(open ? "" : b.dataset.target);
+    });
+  });
+})();
+</script>
+<script>
+(function () {
+  var bubble = document.getElementById("bubble"), active = null, timer;
+  function hide() {
+    bubble.classList.remove("show");
+    bubble.hidden = true;
+    if (active) active.setAttribute("aria-expanded", "false");
+    active = null;
+    clearTimeout(timer);
+  }
+  function show(btn) {
+    if (active === btn) { hide(); return; }
+    hide();
+    active = btn;
+    btn.setAttribute("aria-expanded", "true");
+    bubble.textContent = btn.dataset.msg;
+    bubble.classList.remove("below");
+    bubble.style.left = "0px"; bubble.style.top = "0px";
+    bubble.hidden = false;
+    var r = btn.getBoundingClientRect(), bw = bubble.offsetWidth, bh = bubble.offsetHeight;
+    var cx = r.left + r.width / 2;
+    var left = Math.max(12, Math.min(window.innerWidth - bw - 12, cx - bw / 2));
+    var below = r.top - bh - 16 < 8;
+    bubble.style.left = left + "px";
+    bubble.style.top = (below ? r.bottom + 14 : r.top - bh - 14) + "px";
+    bubble.style.setProperty("--tail", Math.max(18, Math.min(bw - 18, cx - left)) + "px");
+    bubble.classList.toggle("below", below);
+    void bubble.offsetWidth;
+    bubble.classList.add("show");
+    timer = setTimeout(hide, 7000);
+  }
+  document.querySelectorAll(".plant").forEach(function (b) {
+    b.addEventListener("click", function (e) { e.stopPropagation(); show(b); });
+  });
+  document.addEventListener("click", hide);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") hide(); });
+})();
+</script>
+</body>
+</html>
